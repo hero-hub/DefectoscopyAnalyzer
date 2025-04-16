@@ -28,7 +28,7 @@ namespace DefectoscopyAnalyzer
         {
             SetupPlot();
             Analyze = new RelayCommand(async _ => await AnalyzeDirectoryAsync(), _ => !IsBusy);
-            _cachedSignals = new List<List<double>>();
+            //_cachedSignals = new List<List<double>>();
         }
 
         public ICommand Analyze { get; } 
@@ -71,9 +71,9 @@ namespace DefectoscopyAnalyzer
 
             PlotModel.Legends.Add(new OxyPlot.Legends.Legend
             {
-                LegendPosition = OxyPlot.Legends.LegendPosition.RightTop, // Позиция легенды
-                LegendPlacement = OxyPlot.Legends.LegendPlacement.Outside, // Размещение вне графика
-                LegendOrientation = OxyPlot.Legends.LegendOrientation.Vertical // Вертикальная ориентация
+                LegendPosition = OxyPlot.Legends.LegendPosition.RightTop,
+                LegendPlacement = OxyPlot.Legends.LegendPlacement.Outside,
+                LegendOrientation = OxyPlot.Legends.LegendOrientation.Vertical
             });
 
             PlotModel.Axes.Add(new OxyPlot.Axes.LinearAxis
@@ -135,8 +135,6 @@ namespace DefectoscopyAnalyzer
                         defectEnd = 0;
                         durationDefect = 0;
                     }
-
-                    //List<(int start, int end)> newDefects = DetectDefects(signalIndex);
                 }
                 UpdateDefectsInfo(defects);
             }
@@ -144,88 +142,6 @@ namespace DefectoscopyAnalyzer
             IsBusy = false;
         }
 
-        //private List<(int start, int end)> DetectDefects(int currentIndex)
-        //{
-        //    List<(int start, int end)> defects = new List<(int start, int end)>();
-
-        //    //List<(int signalIndex, int exceedPosition)> exceedPositions = new List<(int signalIndex, int exceedPosition)>();
-
-        //    //for (int i = 0; i <= currentIndex; i++)
-        //    //{
-        //    //    var values = _cachedSignals[i];
-        //    //    double maxExceedValue = THRESHOLD;
-        //    //    int maxExceedPosition = -1;
-
-        //    //    for (int j = 0; j < values.Count; j++)
-        //    //    {
-        //    //        if (values[j] > THRESHOLD && values[j] > maxExceedValue)
-        //    //        {
-        //    //            maxExceedValue = values[j];
-        //    //            maxExceedPosition = j + 1;
-        //    //        }
-        //    //    }
-
-        //    //    if (maxExceedPosition != -1) exceedPositions.Add((i + 1, maxExceedPosition));
-
-        //    //}
-            
-            
-
-        //    int sequenceStart = 0;
-        //    while (sequenceStart < exceedPositions.Count)
-        //    {
-        //        int sequenceEnd = sequenceStart;
-        //        bool isValidSequence = true;
-
-        //        for (int i = sequenceStart; i < exceedPositions.Count - 1; i++)
-        //        {
-        //            int currentSignal = exceedPositions[i].signalIndex;
-        //            int currentPosition = exceedPositions[i].exceedPosition;
-        //            int nextSignal = exceedPositions[i + 1].signalIndex;
-        //            int nextPosition = exceedPositions[i + 1].exceedPosition;
-
-        //            //if (nextSignal != currentSignal + 1)
-        //            //{
-        //            //    isValidSequence = false;
-        //            //    break;
-        //            //}
-
-        //            //if (nextPosition <= currentPosition)
-        //            //{
-        //            //    isValidSequence = false;
-        //            //    break;
-        //            //}
-
-        //            //int shift = nextPosition - currentPosition;
-        //            //if (shift > maxShift)
-        //            //{
-        //            //    isValidSequence = false;
-        //            //    break;
-        //            //}
-
-        //            sequenceEnd = i + 1;
-        //        }
-
-        //        int sequenceLength = sequenceEnd - sequenceStart + 1;
-        //        if (isValidSequence && sequenceLength >= DEFECT_MIN_DURATION)
-        //        {
-        //            int defectStart = exceedPositions[sequenceStart].signalIndex;
-        //            int defectEnd = exceedPositions[sequenceEnd].signalIndex;
-        //            defects.Add((defectStart, defectEnd));
-        //        }
-
-        //        if (!isValidSequence)
-        //        {
-        //            sequenceStart++;
-        //        }
-        //        else
-        //        {
-        //            sequenceStart = sequenceEnd + 1;
-        //        }
-        //    }
-
-        //    return defects;
-        //}
         private async Task PlotSignalAsync(List<double> values, int signalIndex)
         {
             PlotModel.Series.Clear();
